@@ -3,13 +3,13 @@
 # EggHead the Begginer's Guide to React
 
 
-## Aula 0: Introdução
+## Aula 00: Introdução
 
   Estratégia do Curso: Começar com um html simples e ir divagarzin adicionando conceitos e coisas do React. Como o ```Reat.createElement``` funciona; como o JSX é só uma abstração em cima do React e como o babel funciona para fazer o JSX funcionar como se fosse parte do próprio JS.
 
   A ideia é mostrar que React é nada além de javascript, apenas objetos e funções. 
 
-## Aula 1: Create HTML elements with React's createElement API
+## Aula 01: Create HTML elements with React's createElement API
 
 ```html
   <div id="root"></div>
@@ -46,7 +46,7 @@ O ```createElement``` retora um objeto JS que tem alguns atributos. Um dos mais 
 ```
 
 
-![](/img/multiPrams.png "multi params on createElement")
+![](/img/multiParams.png "multi params on createElement")
 
 
 outras forams de fazer a mesma coisa seria dentro do segundo parâmetro:
@@ -60,7 +60,7 @@ outras forams de fazer a mesma coisa seria dentro do segundo parâmetro:
 No fim o ```React.createElement``` é simples: primeiro o elemento que quer criar, depois as propriedades que você quer que aquele objeto tenha e por fim filhos que aquele objeto deve ter.
 
 
-## Aula 2: Replace React createElement Function Call with JSX
+## Aula 02: Replace React createElement Function Call with JSX
 
 
 Criar toda nossa aplicação utilizando o ```React.createElement``` é possível, porém, não é muito ergonomico e de fácil entendimendo. Tendo isso em mente, o time do React criou o __JSX__ (javascript + XML). com o intuito de criar nossa UI de uma maneira que é um pouco mais familiar para nós.
@@ -141,3 +141,100 @@ Outra coisa legal é imaginar que este objeto com as propriedades está vindo pa
 Desta forma estamos sobrescrevendo tudo que estiver no props (meio que o conceito de definir a variável duas vezes e ela ficar com o último valor). A propriedade __children__ também é alterada (podemos sobreescrever children ao fazer ```<div ...>{o_que_eu_quiser}<div/>``` também)
 
 O jeito mais comum de trabalhar com JSX é este de colocar a tag HTML como se fosse o HTML mesmo, colocar as props com o _spread operator_ (```{...props}```) e sobrescrever qualquer coisa que queremos.
+
+## Aula 03: Create a Simple Reusable React Component
+
+Podemos utilizar a interpolação para não nos repetirmos
+
+``` javascript
+  const helloWorld = <div>Hello World</div>
+
+  const element = (
+    <div className="container">
+      {helloWorld}
+      {helloWorld}
+    </div>
+  )
+```
+
+Como é _javascript_ podemos utilizar uma função para o mesmo:
+
+``` javascript
+  const message = (props) => <div>{props.msg}</div>
+
+  const element = (
+    <div className="container">
+      {message({msg: 'Hello World'})}
+      {message({msg: 'Goodbye World'})}
+    </div>
+  )
+```
+
+Infelizmente, funções não "combinam" tão bem quanto o JSX então vamos tentar uma forma diferente. Podemos fazer com ``React.createElement``` e funcionará:
+
+```javascript
+  let message = (props) => <div>{props.msg}</div>
+  let element = (
+    <div className="container">
+      {React.createElement(message, {msg: 'Hello World'})}
+      {React.createElement(message, {msg: 'Goodbye World'})}
+    </div>
+  )
+```
+
+Porém, queremos agora utilizar como o _JSX_, geralmente criamos apenas uma tag com o que queremos: 
+
+```javascript
+  element = (
+    <div className="container">
+      <message />
+      {React.createElement(message, {msg: 'Hello World'})}
+      {React.createElement(message, {msg: 'Goodbye World'})}
+    </div>
+  )
+```
+
+Porém, ao fazer isso temos um problema. Como temos uma variável/função com o mesmo nome da tag que criamos o babel vai tentar compilar para um ```React.createElment``` e receberá as props como null e tentará criar um ```tag``` html ```"message"```. Para este caso em específico, isso é exatamente o que queremos, porém, em maioria dos casos podemos ter uma outra variável e acabar referenciando ela no momento da transpilação
+
+![](/img/babel-message.png "Babel online compiler")
+
+
+Para evitar este tipo problema de referenciar alguma variável que já temos em algum lugar (sem intenção de referenciá-la) tem-se uma convenção de utilizar a primeira letra em maíusculo:
+
+![](/img/babel-message-correto.png "Babel online compiler correct")
+
+
+Agora temos um erro no console por não ter o _Message_:
+
+![](/img/erro-maiusculo.png "Babel online compiler correct")
+
+Podemos então criar nosso componente:
+
+```javascript
+
+  const Message = (props) => <div>{props.msg}</div> // mesmma coisa do message anterior
+  element = (
+    <div className="container">
+      <Message msg ='Hello World' />
+      <Message msg ='Goodbye World' />
+    </div>
+  )
+
+```
+
+Agora podemos reutilizar o nosso componente em qualquer outro lugar e compor qualquer tipo de componente e tal.
+
+
+É uma boa prática utilizar o children nestes casos onde queremos renderizar alguma coisa:
+
+```javascript
+
+  const Message = (props) => <div>{props.children}</div> // mesmma coisa do message anterior
+  element = (
+    <div className="container">
+      <Message> 'Hello World' <Message/>
+      <Message> 'Goodbye World' <Message/>
+    </div>
+  )
+
+```
