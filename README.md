@@ -3,13 +3,13 @@
 # EggHead the Begginer's Guide to React
 
 
-## Aula 00: Introdução
+# Aula 00: Introdução
 
   Estratégia do Curso: Começar com um html simples e ir divagarzin adicionando conceitos e coisas do React. Como o ```Reat.createElement``` funciona; como o JSX é só uma abstração em cima do React e como o babel funciona para fazer o JSX funcionar como se fosse parte do próprio JS.
 
   A ideia é mostrar que React é nada além de javascript, apenas objetos e funções. 
 
-## Aula 01: Create HTML elements with React's createElement API
+# Aula 01: Create HTML elements with React's createElement API
 
 ```html
   <div id="root"></div>
@@ -60,7 +60,7 @@ outras forams de fazer a mesma coisa seria dentro do segundo parâmetro:
 No fim o ```React.createElement``` é simples: primeiro o elemento que quer criar, depois as propriedades que você quer que aquele objeto tenha e por fim filhos que aquele objeto deve ter.
 
 
-## Aula 02: Replace React createElement Function Call with JSX
+# Aula 02: Replace React createElement Function Call with JSX
 
 
 Criar toda nossa aplicação utilizando o ```React.createElement``` é possível, porém, não é muito ergonomico e de fácil entendimendo. Tendo isso em mente, o time do React criou o __JSX__ (javascript + XML). com o intuito de criar nossa UI de uma maneira que é um pouco mais familiar para nós.
@@ -142,7 +142,7 @@ Desta forma estamos sobrescrevendo tudo que estiver no props (meio que o conceit
 
 O jeito mais comum de trabalhar com JSX é este de colocar a tag HTML como se fosse o HTML mesmo, colocar as props com o _spread operator_ (```{...props}```) e sobrescrever qualquer coisa que queremos.
 
-## Aula 03: Create a Simple Reusable React Component
+# Aula 03: Create a Simple Reusable React Component
 
 Podemos utilizar a interpolação para não nos repetirmos
 
@@ -240,7 +240,7 @@ Agora podemos reutilizar o nosso componente em qualquer outro lugar e compor qua
 ```
 
 
-## Aula 04: Validate Custom React Component Props with PropTypes
+# Aula 04: Validate Custom React Component Props with PropTypes
 
 
 As vezes vamos cometer erros ao passar propriedades para nossos componentes; principalmente qunado temos outras pessoas utilizando o nosso código. Supomos que temos o código a seguir: 
@@ -342,7 +342,7 @@ Para ```Statefull Components``` (componentes que retornam ) podemos fazer da mes
 
 
 
-## Aula 05: Conditionally Render A React Component
+# Aula 05: Conditionally Render A React Component
  
 
 ``` javascript
@@ -374,7 +374,7 @@ function Message({message}) {
   }
 ```
 
-## Aula 06: Rerender a React Application
+# Aula 06: Rerender a React Application
 
 Nesta aula ele cria um appzinho com um relógio em React de uma forma que vemos como funciona a atualização do React DOM e o quanto ele é eficiente com a utilização do virtual DOM.
 
@@ -426,7 +426,7 @@ Dessa forma, podemos observar que o que está atualizando é o ```root``` inteir
 
 Podemos ver o quanto que o React é eficiente com a sua renderização através do _Virtual DOM_ pois ele só atualiza o que realmente mudou, em contrapartida ao elemento inteiro.
 
-## Aula 07: Style React Components with className and In Line Styles
+# Aula 07: Style React Components with className and In Line Styles
 
 O jeito como colocamos estilos nos componentes é uma das poucas diferenças que temos ao utilizar JSX e HTML. Ao invés de uma string o JSX recebe um objeto com as chaves das propriedades em ```camel case``` ao invés da separação por ífen e o valor da propriedade são strings:
 
@@ -551,3 +551,68 @@ Existem alguns problmeas em usar in ```line style``` e existem algumas bibliotec
 > Aqui na Evnts usamos o Styled Components (por questão de adesão da comunidade). Acredito que independente de qual desses você utilizar irá resolver grande parte dos problemas que o BEM (block-element-modifier) preza resolver, com encapsulamento de contexto e estados. Além disso, o Styled Components também oferece funcionalidades como temas e outras coisas.
 
 
+# Aula08: Use Event Handlers with React
+
+```javascript
+  const state = {eventCount: 0, username: ''}
+
+  function increment() {
+    setState({
+      eventCount: state.eventCount + 1
+    })
+  }
+
+  function updateUserName(event) {
+    console.log(event)
+    console.log(event.native)
+    setState({
+      username: event.target.value
+    })
+  }
+
+  function App() {
+    return (
+      <div>
+        <p>There have been {state.eventCount} events</p>
+        <p>
+          <button onClick = {increment}
+          >🛎</button></p>
+        <p>You typed: {state.username}</p>
+        <p><input onChange={updateUserName} /></p>
+      </div>
+    )
+  }
+
+  function setState(newState) {
+    Object.assign(state, newState)
+    renderApp()
+  }
+
+  function renderApp() {
+    ReactDOM.render(
+      <App />,
+      document.getElementById('root')
+    )
+  }
+  renderApp()
+```
+
+Com o app acima podemos clicar na campainha e incrementar o número de eventos e, ao digitar no input atualizar o texto logo após o ```You typed```. Ficou assim:
+
+![](img/appzin.png "App bunitin")
+
+
+Se fizermos um ```console.log``` do evento que recebemos vemos que o React tem um Proxy dele que cuida de todos os eventos. Se quisermos acessar o evento nativo basta chamar ```event.nativeEvent```
+
+```javascript
+  console.log(event)
+  console.log(event.nativeEvent)
+```
+![](img/event.png "App bunitin")
+
+Com este proxy o React otimiza algumas coisas para nós ao trabalhar com a delegação de eventos (existindo apenas um ```event handler``` para cada tipo dentro de todo o documento). 
+
+
+Se inspecionarmos o elemento vemos que ele não tem o método onClick quando comparado com outro que foi criado estáticamente:
+
+![](img/input-onClick.png "Input React x input HTML")

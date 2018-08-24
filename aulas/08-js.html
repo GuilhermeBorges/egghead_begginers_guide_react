@@ -1,0 +1,76 @@
+<div id="root"></div>
+<input onClick='console.log("Eu sou um input colocado no html mesmo")'/>
+
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/prop-types@15.6.2/prop-types.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+<style>
+  .box {
+    border: 5px solid black;
+  }
+
+  .box--large {
+    width: 180px;
+    height: 180px;
+  }
+
+  .box--medium {
+    width: 120px;
+    height: 120px;
+  }
+
+  .box--small {
+    width: 60px;
+    height: 60px;
+  }
+</style>
+
+<script type = "text/babel">
+  
+  const state = {eventCount: 0, username: ''}
+
+  function increment() {
+    setState({
+      eventCount: state.eventCount + 1
+    })
+  }
+  function updateUserName(event) {
+    console.log(event)
+    console.log(event.nativeEvent)
+    setState({
+      username: event.target.value
+    })
+  }
+
+  function App() {
+    return (
+      <div>
+        <p>There have been {state.eventCount} events</p>
+        <p>
+          <button onClick = {increment}
+          >🛎</button></p>
+        <p>You typed: {state.username}</p>
+        <p><input onChange={updateUserName} /></p>
+      </div>
+    )
+  }
+
+  // const Batata = ({children}) => {
+  //   return children
+  // }
+
+  function setState(newState) {
+    Object.assign(state, newState)
+    renderApp()
+  }
+
+  function renderApp() {
+    ReactDOM.render(
+      <App />,
+      document.getElementById('root')
+    )
+  }
+  renderApp()
+</script>
