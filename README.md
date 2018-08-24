@@ -426,3 +426,128 @@ Dessa forma, podemos observar que o que está atualizando é o ```root``` inteir
 
 Podemos ver o quanto que o React é eficiente com a sua renderização através do _Virtual DOM_ pois ele só atualiza o que realmente mudou, em contrapartida ao elemento inteiro.
 
+## Aula 07: Style React Components with className and In Line Styles
+
+O jeito como colocamos estilos nos componentes é uma das poucas diferenças que temos ao utilizar JSX e HTML. Ao invés de uma string o JSX recebe um objeto com as chaves das propriedades em ```camel case``` ao invés da separação por ífen e o valor da propriedade são strings:
+
+```javascript
+  const element = (
+    <div>
+      <div style={{paddingLeft: '20px'}}> box </div>
+    </div>
+  )
+```
+
+Caso o valor seja um número JSX considera que está em pixel, podendo trocar para:
+
+
+```javascript
+  const element = (
+    <div>
+      <div style={{paddingLeft: 20}}> box </div>
+    </div>
+  )
+```
+
+
+Outra diferença é a que já vimos com a ```className``` :
+
+```javascript
+  const props = {
+    className: 'box box--small',
+    style: {paddingLeft: 20}
+  }
+  const element = (
+    <div>
+      <div {...props}> box </div>
+    </div>
+  )
+```
+
+Uma cilada que podemos cair sem querer é fazer uma estilização default dentro do próprio componente e logo após adicionar outra estilização; como o style é uma propriedade ele será sobrescrito caso façamos da seguinte maneira (perdendo o paddingLeft):
+
+```javascript
+  function Box(props) {
+    return (
+      <div
+        className = "box box--small"
+        style = {{paddingLeft: 20}}
+        {...props}
+      >
+      </div>
+    )
+  }
+  const element = (
+    <div>
+      <Box  style = {backgroundColor: 'lightblue'}> box </Box>
+    </div>
+  )
+```
+
+Podemos fazer uma gambis para arrumar:
+
+
+```javascript
+
+  function Box({style, className = '', ...rest}) {
+    return (
+      <div
+        className = {`box ${className.trim()}`}
+        style = {{paddingLeft: 20, ...style}}
+        {...rest}
+      >
+      </div>
+    )
+  }
+  const element = (
+    <div>
+      <Box  style = {{backgroundColor: 'lightblue'}} className = 'box--small'> box </Box>
+      <Box  style = {{backgroundColor: 'pink'}} className = 'box--medium'> box </Box>
+      <Box  style = {{backgroundColor: 'orange'}} className = 'box--large'> box </Box>
+    </div>
+  )
+
+```
+
+
+Assim temos a flexibilidade para criar as caixinhas e colocar tudo do tamanho que queremos. 
+Porém, segundo o fessô, temos que tirar essa responsabilidade do componente pai e deixar que o filho se reponsabilize por colocar/ajustar o tamanho das caixinhas:
+
+
+```javascript
+
+  function Box({style, size, className = '', ...rest}) {
+    const sizeClassName = size ? `box--${size}` : ''
+    return (
+      <div
+        className = {`box ${sizeClassName}`}
+        style = {{paddingLeft: 20, ...style}}
+        {...rest}
+      >
+      </div>
+    )
+  }
+  const element = (
+    <div>
+      <Box  style = {{backgroundColor: 'lightblue'}} size = 'small'> box </Box>
+      <Box  style = {{backgroundColor: 'pink'}} size = 'medium'> box </Box>
+      <Box  style = {{backgroundColor: 'orange'}} size = 'large'> box </Box>
+    </div>
+  )
+
+```
+
+![](/img/caixinhas.png "Caixinhas")
+
+
+Assim fica muito mais simples para o componente pai ter o controle de como as coisas devem ser sem saber a implementação das mesmas. 
+
+
+Existem alguns problmeas em usar in ```line style``` e existem algumas bibliotecas que nos ajudam com esses problemas além de outros:
+  - ![Styled Components](https://www.styled-components.com/docs/basics)
+  - ![Emotion](https://emotion.sh/)
+  - ![Glamorous](https://glamorous.rocks/)
+
+> Aqui na Evnts usamos o Styled Components (por questão de adesão da comunidade). Acredito que independente de qual desses você utilizar irá resolver grande parte dos problemas que o BEM (block-element-modifier) preza resolver, com encapsulamento de contexto e estados. Além disso, o Styled Components também oferece funcionalidades como temas e outras coisas.
+
+
