@@ -544,9 +544,9 @@ Assim fica muito mais simples para o componente pai ter o controle de como as co
 
 
 Existem alguns problmeas em usar in ```line style``` e existem algumas bibliotecas que nos ajudam com esses problemas além de outros:
-  - [Styled Components]: (https://www.styled-components.com/docs/basics
-  - [Emotion]: (https://emotion.sh/
-  - [Glamorous]: (https://glamorous.rocks/
+  - [Styled Components](https://www.styled-components.com/docs/basics)
+  - [Emotion](https://emotion.sh/)
+  - [Glamorous](https://glamorous.rocks/)
 
 > Aqui na Evnts usamos o Styled Components (por questão de adesão da comunidade). Acredito que independente de qual desses você utilizar irá resolver grande parte dos problemas que o BEM (block-element-modifier) preza resolver, com encapsulamento de contexto e estados. Além disso, o Styled Components também oferece funcionalidades como temas e outras coisas.
 
