@@ -83,7 +83,7 @@ Temos algumas diferenças. Em HTML usamos _class_ e no _JSX_ deve ser __classNam
 
 Podemos também colocar variáveis, utilizando a interpolação (através de __\{\}__ podendo utilizar qualquer código javascript que quisermos desde que ele se resolva a uma expressão)
 
-``` javascript
+```javascript
   const content = 'Hello World'
   const element = <div className = 'container'> {content} </div>
 ```
@@ -91,14 +91,14 @@ Podemos também colocar variáveis, utilizando a interpolação (através de __\
 Podemos até colocar funções se quisermos
 
 
-``` javascript
+```javascript
   const content = 'Hello World'
   const element = <div className = 'container'> {(() => content)} </div>
 ```
 O mesmo vale para as propriedades
 
 
-``` javascript
+```javascript
   const content = 'Hello World'
   const myClassName = 'container'
   const element = <div className = {myClassName}> {content} </div>
@@ -106,7 +106,7 @@ O mesmo vale para as propriedades
 
 Isso nos da poder e flexibilidade para fazer qualquer tipo de interpolação que quisermos, como por exemplo:
 
-``` javascript
+```javascript
   const content = 'Hello World'
   const myClassName = 'container'
   const element = <div className = {myClassName + '__hi-there'}> {content} </div>
