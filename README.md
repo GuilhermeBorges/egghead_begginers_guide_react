@@ -373,3 +373,56 @@ function Message({message}) {
       : (<div>Ninguém te ama cara, você não tem mensagens</div>)
   }
 ```
+
+## Aula 06: Rerender a React Application
+
+Nesta aula ele cria um appzinho com um relógio em React de uma forma que vemos como funciona a atualização do React DOM e o quanto ele é eficiente com a utilização do virtual DOM.
+
+```
+<script type = "text/babel">
+  const rootElement = document.getElementById('root')
+
+  const time = new Date().toLocaleString()
+  const element = <div> it is {time}</div>
+  ReactDOM.render(element, rootElement)
+
+</script>
+```
+
+Com o código acima mostramos o hotário atual, porém, só funciona quando atualizamos a página (tem que ficar atualizando para ver ele mudar). Para fazer ele atualizar de segundo em segundo podemos englobar esso código em uma função e fazer chamar de segundo a segundo com um ```setInterval```
+
+```javascript
+  function tick() {
+    const time = new Date().toLocaleString()
+    const element = <div> It is <input value = {time}></input></div>
+    ReactDOM.render(element, rootElement)
+  }
+  tick()
+  setInterval(tick, 1000)
+```
+
+Agora ele funciona bunitin, rodando de segundo em segundo.
+O browser irá destacar de roxo o que está atualizando, "piscando" o horário conforme é atualizado segundo a segundo.
+
+
+![](/img/atualizacao-time-react.jpg "O que o React está atualizando aqui")
+
+
+Se mudarmos a o time para um input e clicarmos nele pegamos o foco do input. O foco continua mesmo com o valor dele (o ```{time}``` e o foco (contorno azul do input) continua nele)
+
+Vamos agora mudar o uso do React para o uso do JS normal
+
+``` javascript
+  function tick() {
+    const time = new Date().toLocaleString()
+    const element = `<div> It is  <input value = ${time}></input></div>`
+    rootElement.innerHTML = element
+  }
+```
+
+Dessa forma, podemos observar que o que está atualizando é o ```root``` inteiro.
+
+![](/img/update-html.png "O que o React está atualizando aqui")
+
+Podemos ver o quanto que o React é eficiente com a sua renderização através do _Virtual DOM_ pois ele só atualiza o que realmente mudou, em contrapartida ao elemento inteiro.
+
