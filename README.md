@@ -338,7 +338,38 @@ Para ```Statefull Components``` (componentes que retornam ) podemos fazer da mes
 ```
 
 > Ao mudar para a versão de produção ele não funciona pq ele deixa as coisas mais "lentas" devido às verificações e etc.
-> Isso é bom mas se você ainda quiser melhorar ainda mais as cosias você pode usar um plugin do babel para remover os prop-types do seu código ao compilar para produção
+> Isso é bom mas se você ainda quiser melhorar ainda mais as cosias você pode usar um plugin do babel para remover os prop-types do seu código ao compilar para produção o
 
 
 
+## Aula 05: Conditionally Render A React Component
+ 
+
+``` javascript
+  function Message({message}) {return <div>{message}</div>}
+  const element = <Message message="Hello world" />
+  ReactDOM.render(element, rootElement)
+```
+
+Caso tenhamos o código acima e, por algum motivo, quermeos que a mensagem seja nula ele simplesmente vai mostrar nada na tela (vai apenas criar a div). Se quisermos mostrar uma mensagem: ```Você não possui nenhuma mensagem``` podemos adicionar um condicional:
+
+``` javascript
+function Message({message}) {
+    if(!message) {
+      return <div>Ninguém te ama cara, você não tem mensagens</div>
+    }
+    return <div>{message}</div>
+  }
+  const element = <Message />
+  //const element = <Message message={null}/>
+
+  /*
+    Ou então para ficar mais lindão
+  */
+
+  function Message({message}) {
+    return  message 
+      ? (<div>{message}</div>)
+      : (<div>Ninguém te ama cara, você não tem mensagens</div>)
+  }
+```
