@@ -238,3 +238,107 @@ Agora podemos reutilizar o nosso componente em qualquer outro lugar e compor qua
   )
 
 ```
+
+
+## Aula 04: Validate Custom React Component Props with PropTypes
+
+
+As vezes vamos cometer erros ao passar propriedades para nossos componentes; principalmente qunado temos outras pessoas utilizando o nosso código. Supomos que temos o código a seguir: 
+
+```javascript
+
+  function SayHello(props) {
+    return (
+      <div>
+        Hello {props.firstName} {props.lastName} !
+      </div>
+    )
+  }
+  const element = <SayHello firstName={true} />
+  ReactDOM.render(element, rootElement)
+```
+
+Ele não está renderizando o que queremos (está renderizando apenas ```Hello !```)
+
+
+Para avisar sobre esses erros podemos utilizar o PropTypes:
+
+> É importante notar que o protoTypes só funciona na versão de development do react, fique atento ao src do react caso esteja usando o cdn para ser o de development
+
+```javascript
+
+    const PropTypes = {
+    string(props, propName, componentName) {
+      console.log('buahahahahah')
+      if(typeof props[propName] !== 'string') {
+        return new Error (`Hey, miguxo, você tem que passar uma string para ${propName} in ${componentName} mas você passou ${typeof props[propName]}`)
+      }
+    }
+  } 
+
+  SayHello.propTypes = {
+    firstName: PropTypes.string,
+    lastName: PropTypes.string
+  }
+
+  const element = <SayHello firstName={true} />
+  ReactDOM.render(element, rootElement)
+
+```
+
+Dessa forma temos o erro impresso no log do sistema
+![](/img/erro-com-props.png "Erro com props")
+
+
+Pelo fato desses erros serem comuns e esta tratativa padrão, o time do React criou o pacote ```PropTypes``` que implementa várias funções para nós! :D
+Basta importar script e remover nossa implementação do PropTypes e pronto:
+
+```html
+<script src="https://unpkg.com/prop-types@15.6.2/prop-types.js"></script>
+```
+
+O único "problema" agora é que não temos mais o erro que acontecia no ```lastName```, isso acontece devido ao ```propTypes``` assumir que nem todas as propriedades são necessárias por padrão (o que é bom quando colocamos um valor padrão).
+Para tornar elas necessárias basta:
+
+```javascript
+  SayHello.propTypes = {
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired
+  }
+```
+
+Gerando os erros: 
+```
+Warning: Failed prop type: Invalid prop `firstName` of type `boolean` supplied to `SayHello`, expected `string`.
+```
+```
+Warning: Failed prop type: The prop `lastName` is marked as required in `SayHello`, but its value is `undefined`.
+```
+
+Para ```Statefull Components``` (componentes que retornam ) podemos fazer da mesma maneira como acima (```NomeDoComponent.propTypes = {...}```) mas o mias comum é criar o __propTypes__ como atributo estático:
+
+```javascript
+  class SayHello extends React.Component {
+    static propTypes = { 
+      firstName: PropTypes.string,
+      lastName: PropTypes.string
+    }
+
+    render () {
+      console.log(this)
+      console.log(PropTypes)
+      const {firstName, lastName} = this.props
+      return (
+        <div>
+          Hello {firstName} {lastName} !
+        </div>
+      )
+    }
+  }
+```
+
+> Ao mudar para a versão de produção ele não funciona pq ele deixa as coisas mais "lentas" devido às verificações e etc.
+> Isso é bom mas se você ainda quiser melhorar ainda mais as cosias você pode usar um plugin do babel para remover os prop-types do seu código ao compilar para produção
+
+
+
