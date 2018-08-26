@@ -17,6 +17,7 @@
 - [BONUS: Coisas interessantes que o Wesley ensinou](#bonus-coisas-interessantes-que-o-wesley-ensinou)
 - [Aula 10: Stop Memory Leaks with componentWillUnmount Lifecycle Method in React](#aula-10-stop-memory-leaks-with-componentwillunmount-lifecycle-method-in-react)
 - [Aula 11: Use Class Components with React](#aula-11-use-class-components-with-react)
+- [Aula 12: Manipulate the DOM with React refs](#aula-12-manipulate-the-dom-with-react-refs)
 
 
 # Aula 00: Introdução
@@ -782,4 +783,50 @@ Feito isso, ao remover o componente não temos mais os logs o/
 
 # Aula 11: Use Class Components with React
 
+
+
 Basicamente o que tinha no [bonus](#bonus-coisas-interessantes-que-o-wesley-ensinou) :p
+
+
+
+# Aula 12: Manipulate the DOM with React refs
+
+As vezes vamos precisar usar um Plugin ou biblioteca que precisa de acesso aos nós do DOM para funcionar. Outras vezes precisaremos acessar o nó do DOM diretamente para pegar o valor de alguns campos de um formulário ou por qualquer outro motivo. 
+
+Para fazer isso vamos utilizar a propriedade ```ref``` do React:
+
+```javascript
+class Tilt extends React.Component {
+    componentDidMount() {
+      console.log(this.rootNode)
+      VanillaTilt.init(this.rootNode, {
+        max: 40,
+        speed: 400,
+        glare: true,
+        'max-glare':0.5
+      })
+    }
+    render() {
+      return (
+        <div ref={node => (this.rootNode = node)} className="tilt-root"> 
+          <div className="tilt-child"> 
+              <div {...this.props} />
+          </div>
+        </div>
+      )
+    }
+  }
+
+  const element = (
+  <div className = "totally-centered">
+    <Tilt>
+      <div className="totally-centered"> 
+        vanilla-tilt.js
+      </div>
+    </Tilt>
+  </div>)
+```
+
+Se passarmos a propriedade ```ref``` para o componente ```Tilt``` o que vamos ter é a referência para a instância. Seria a mesma coisa que o ```this```. Para pegar o nó do DOM precisamos passar o ```ref``` em uma ```div```.
+
+Dessa forma, colocamos o valor do nó dentro de uma variável (```this.rootNode```) que é utilizada para o [vanilla-tilt](https://micku7zu.github.io/vanilla-tilt.js/)
