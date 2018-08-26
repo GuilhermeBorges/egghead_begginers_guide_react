@@ -616,3 +616,87 @@ Com este proxy o React otimiza algumas coisas para nós ao trabalhar com a deleg
 Se inspecionarmos o elemento vemos que ele não tem o método onClick quando comparado com outro que foi criado estáticamente:
 
 ![](img/input-onClick.png "Input React x input HTML")
+
+
+
+# AULA 09: Use Component State with React
+
+Fala sobre a estratégia de criar o app como deveria ficar e depois migrar para os componentes com estado. Dessa forma fica muito mais fácil de entender o que deve ser propriedade, o que deve ficar no estado e etc.
+Para isso?
+  1. Começamos com um componente ```Stateless``` com as informações estáticas;
+
+  ```javascript
+    function StopWatch() {
+      return (
+        <div style = {{textAlign: 'center'}}>
+            <label style = {{fontSize: '5em', display: 'block'}}>0ms</label>
+            <button style = {buttonStyles}>Start</button>
+            <button style = {buttonStyles}>Clear</button>
+        </div>
+      )
+    }
+
+    const element = <StopWatch/>
+
+  ```
+
+  2. Logo em seguida, retiramos as peças que precisam do estado em forma de propriedades mesmo (apenas para ver se está tudo renderizando corretamente e entender melhor o que deverá ficar no estado);
+
+
+  ```javascript
+    function StopWatch({lapse, running}) {
+      return (
+        <div style = {{textAlign: 'center'}}>
+            <label style = {{fontSize: '5em', display: 'block'}}>{lapse}ms</label>
+            <button style = {buttonStyles}>{running ? 'Stop' : 'Start'}</button>
+            <button style = {buttonStyles}>Clear</button>
+        </div>
+      )
+    }
+
+    const element = <StopWatch lapse={10} running = {false}/>
+
+  ```
+
+  3. Movemos as variáveis que estão nos ```props``` para o estado;
+  4. Adicionamos as iterações (```onClick```) e as lógicas para atualizar o estado e etc;
+
+```javascript
+
+  class StopWatch extends React.Component {
+    state = {running: false, lapse: 0}
+    handleRunClick = () =>  {
+      this.setState( state => {
+        if(state.running) {
+          clearInterval(this.timer)
+        } else {
+          const startTime = Date.now() - this.state.lapse
+          this.timer = setInterval( () => { this.setState({lapse: Date.now() - startTime})})
+        }
+        return {running: !state.running}
+      })
+    }
+
+    handleClearClick = () =>  {
+      clearInterval(this.timer)
+      this.setState({lapse: 0, running: false})
+    }
+
+    render() {
+      // const {lapse, running} = this.props
+      const {lapse, running} = this.state
+      return (
+        <div style = {{textAlign: 'center'}}>
+            <label style = {{fontSize: '5em', display: 'block'}}>{lapse}ms</label>
+            <button onClick = {this.handleRunClick} style = {buttonStyles}>{this.state.running ? 'Stop' : 'Start'}</button>
+            <button onClick = {this.handleClearClick} style = {buttonStyles}>Clear</button>
+        </div>
+      )
+    }
+  }
+  const element = <StopWatch/>
+
+```
+
+> A função ```setState``` geralmente é utilizada passando o novo estado / o que queremos mudar. Ela também pode ser utilizada recebendo uma função onde seu primeiro parâmetro é o estado atual e esta função deve retornar o objeto que será o novo estado / o que queremos atualizar nele
+
