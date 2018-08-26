@@ -622,7 +622,7 @@ Se inspecionarmos o elemento vemos que ele não tem o método onClick quando com
 # AULA 09: Use Component State with React
 
 Fala sobre a estratégia de criar o app como deveria ficar e depois migrar para os componentes com estado. Dessa forma fica muito mais fácil de entender o que deve ser propriedade, o que deve ficar no estado e etc.
-Para isso?
+Para isso:
   1. Começamos com um componente ```Stateless``` com as informações estáticas;
 
   ```javascript
