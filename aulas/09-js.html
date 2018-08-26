@@ -1,0 +1,111 @@
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/prop-types@15.6.2/prop-types.js"></script>
+<script src="https://unpkg.com/babel-standalone@6.26.0/babel.js"></script>
+
+<script type = "text/babel">
+  // const buttonStyles = {
+  //   border: '1px solid #484848',
+  //   borderRadius: '10px',
+  //   background: '#fff',
+  //   fontSize: '2em',
+  //   padding: 15,
+  //   margin: 5,
+  //   width: 200,
+  // }
+
+  // function StopWatch({lapse, running}) {
+  //   return (
+  //     <div style = {{textAlign: 'center'}}>
+  //         <label style = {{fontSize: '5em', display: 'block'}}>{lapse}ms</label>
+  //         <button style = {buttonStyles}>{running ? 'Stop' : 'Start'}</button>
+  //         <button style = {buttonStyles}>Clear</button>
+  //     </div>
+  //   )
+  // }
+
+  class StopWatch extends React.Component {
+    state = {
+      running: false,
+      lapse: 0
+    }
+    handleRunClick = () =>  {
+      this.setState( state => {
+        if(state.running) {
+          clearInterval(this.timer)
+        } else {
+          const startTime = Date.now() - this.state.lapse
+          this.timer = setInterval( () => { this.setState({lapse: Date.now() - startTime})})
+        }
+        return {running: !state.running}
+      })
+      // this.setState({running: !this.state.running})
+      // const startTime = Date.now() - this.state.lapse 
+      // setInterval(() => {
+      //   if(this.state.running) this.setState({lapse: Date.now() - startTime})
+      // })
+    }
+    handleClearClick = () =>  {
+      clearInterval(this.timer)
+      this.setState({lapse: 0, running: false})
+    }
+    // changeButton = () =>  this.setState({running: !this.state.running}, () => {console.log(this.state)})
+    // changeButton ()  {this.setState({running: !this.state.running}, () => {console.log(this.state)})}
+
+    render() {
+      // const {lapse, running} = this.props
+      const {lapse, running} = this.state
+      const buttonStyles = {
+        border: '1px solid #484848',
+        borderRadius: '10px',
+        background: '#fff',
+        fontSize: '2em',
+        padding: 15,
+        margin: 5,
+        width: 200,
+      }
+
+      return (
+        <div style = {{textAlign: 'center'}}>
+            <label style = {{fontSize: '5em', display: 'block'}}>{lapse}ms</label>
+            {/*<button onClick = {this.changeButton.bind(this)} style = {buttonStyles}>{running ? 'Stop' : 'Start'}</button>*/}
+            {/*<button onClick = {this.changeButton} style = {buttonStyles}>{this.state.running ? 'Stop' : 'Start'}</button>*/}
+            <button onClick = {this.handleRunClick} style = {buttonStyles}>{this.state.running ? 'Stop' : 'Start'}</button>
+            <button onClick = {this.handleClearClick} style = {buttonStyles}>Clear</button>
+        </div>
+      )
+    }
+  }
+
+
+  
+
+  const element = <StopWatch/>
+  // const element = <StopWatch lapse={10} running = {false}/>
+  ReactDOM.render(element, document.getElementById('root'))
+
+
+
+  // function Loader () {
+  //   return (<div> Is loading beatch</div>)
+  // }
+
+  // class Bunitinha extends React.Component {
+  //   render () {
+  //     const {loading} = this.props
+  //     return <Loader/> && loading
+  //   }
+  // }
+  // ReactDOM.render(<Bunitinha loading={true}/>, document.getElementById('root'))
+
+
+
+
+
+
+
+
+
+</script>
