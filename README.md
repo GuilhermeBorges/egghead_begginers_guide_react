@@ -700,7 +700,7 @@ Para isso:
 
 > A função ```setState``` geralmente é utilizada passando o novo estado / o que queremos mudar. Ela também pode ser utilizada recebendo uma função onde seu primeiro parâmetro é o estado atual e esta função deve retornar o objeto que será o novo estado / o que queremos atualizar nele
 
-> Outra coisa massa que ele faz é a criação de um "atributo" do componente on the go (```this.timer```)
+> Outra coisa massa que ele faz é a criação de um "atributo" do componente _on the fly_: ```this.timer```
 
 
 # BONUS: Coisas interessantes que o Wesley ensinou
