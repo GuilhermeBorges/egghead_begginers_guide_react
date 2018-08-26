@@ -736,3 +736,30 @@ Dessa forma temos que fazer o bind do contexto (```this```), porém, podemos uti
 
 # Aula 10: Stop Memory Leaks with componentWillUnmount Lifecycle Method in React
 
+
+Na aula anterior criamos um comoponente de timer. O problema que temos com o componente anteriro é que, caso a gente delete o componente acontecerá um ```memory leak``` pq o intervalo que criamos e o próprio timer em si não irão parar. 
+
+Para ilustrar isso, adicionamos um checkbox que da um hide no componente:
+
+<b style="color: red"> FAZER O CODIGO DESSE BIXIN AQUI</b>
+
+Se colocarmos uma _callback_ logo após usar o ```setState``` para alterar o nosso ```lapse``` com um _log_ do que temos no lapse vamos poder visualizar o lapse alterando.
+
+```javascript
+  this.setState({lapse: Date.now() - startTime}, () => {
+    console.log(this.state.lapse)
+  })
+```
+
+Ao remover o componente do DOM ou destruir ele podemos ver que o console.log continua aparecendo (ou seja, temos um _memory leak_).
+
+
+Graças ao nosso digníssimo amiguinho React, temos o método ```componentWillUnmount``` dentro dos componentes ```Statefull``` que nos da a oportunidade de limpar o que precisarmops antes de destruir um componente ou remover ele do DOM.
+
+``` javascript
+  componentWillUnmount() {
+    clearInterval(this.timer)
+  }
+```
+
+Feito isso, ao remover o componente não temos mais os logs o/
