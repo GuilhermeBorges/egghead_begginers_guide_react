@@ -702,6 +702,9 @@ Para isso?
 
 > Outra coisa massa que ele faz é a criação de um "atributo" do componente on the go (```this.timer```)
 
+
+# BONUS: Coisas interessantes que o Wesley ensinou
+
 O método ```render``` não pode alterar o estado, apenas renderizar o componente mesmo.
 
 Ao fazer um app React e colocar uma função dentro de um ```onClick```, ou qualquer outra função que altera o estado de um componente, temos que vincular o contexto (```this```). 
@@ -730,4 +733,6 @@ Dessa forma temos que fazer o bind do contexto (```this```), porém, podemos uti
 > Para mais informações sobre _Arrow Functions_ dê uma olhadinha no <a href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Functions/Arrow_functions" target="_blank"> MDN </a>, povo é foda e tem exemplos ótimos para mostrar a diferença ❤️
 
 
+
+# Aula 10: Stop Memory Leaks with componentWillUnmount Lifecycle Method in React
 
