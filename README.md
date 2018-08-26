@@ -705,7 +705,6 @@ Para isso:
 
 # BONUS: Coisas interessantes que o Wesley ensinou
 
-O método ```render``` não pode alterar o estado, apenas renderizar o componente mesmo.
 
 Ao fazer um app React e colocar uma função dentro de um ```onClick```, ou qualquer outra função que altera o estado de um componente, temos que vincular o contexto (```this```). 
 
