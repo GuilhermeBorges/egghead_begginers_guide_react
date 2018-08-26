@@ -3,6 +3,22 @@
 # EggHead the Begginer's Guide to React
 
 
+- [EggHead the Begginer's Guide to React](#egghead-the-begginers-guide-to-react)
+- [Aula 00: Introdução](#aula-00-introdu%C3%A7%C3%A3o)
+- [Aula 01: Create HTML elements with React's createElement API](#aula-01-create-html-elements-with-reacts-createelement-api)
+- [Aula 02: Replace React createElement Function Call with JSX](#aula-02-replace-react-createelement-function-call-with-jsx)
+- [Aula 03: Create a Simple Reusable React Component](#aula-03-create-a-simple-reusable-react-component)
+- [Aula 04: Validate Custom React Component Props with PropTypes](#aula-04-validate-custom-react-component-props-with-proptypes)
+- [Aula 05: Conditionally Render A React Component](#aula-05-conditionally-render-a-react-component)
+- [Aula 06: Rerender a React Application](#aula-06-rerender-a-react-application)
+- [Aula 07: Style React Components with className and In Line Styles](#aula-07-style-react-components-with-classname-and-in-line-styles)
+- [Aula08: Use Event Handlers with React](#aula08-use-event-handlers-with-react)
+- [AULA 09: Use Component State with React](#aula-09-use-component-state-with-react)
+- [BONUS: Coisas interessantes que o Wesley ensinou](#bonus-coisas-interessantes-que-o-wesley-ensinou)
+- [Aula 10: Stop Memory Leaks with componentWillUnmount Lifecycle Method in React](#aula-10-stop-memory-leaks-with-componentwillunmount-lifecycle-method-in-react)
+- [Aula 11: Use Class Components with React](#aula-11-use-class-components-with-react)
+
+
 # Aula 00: Introdução
 
   Estratégia do Curso: Começar com um html simples e ir divagarzin adicionando conceitos e coisas do React. Como o ```Reat.createElement``` funciona; como o JSX é só uma abstração em cima do React e como o babel funciona para fazer o JSX funcionar como se fosse parte do próprio JS.
@@ -762,3 +778,8 @@ Graças ao nosso digníssimo amiguinho React, temos o método ```componentWillUn
 ```
 
 Feito isso, ao remover o componente não temos mais os logs o/
+
+
+# Aula 11: Use Class Components with React
+
+Basicamente o que tinha no [bonus](#bonus-coisas-interessantes-que-o-wesley-ensinou) :p
