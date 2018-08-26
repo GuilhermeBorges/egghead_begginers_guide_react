@@ -700,3 +700,33 @@ Para isso?
 
 > A função ```setState``` geralmente é utilizada passando o novo estado / o que queremos mudar. Ela também pode ser utilizada recebendo uma função onde seu primeiro parâmetro é o estado atual e esta função deve retornar o objeto que será o novo estado / o que queremos atualizar nele
 
+
+O método ```render``` não pode alterar o estado, apenas renderizar o componente mesmo.
+
+Ao fazer um app React e colocar uma função dentro de um ```onClick```, ou qualquer outra função que altera o estado de um componente, temos que vincular o contexto (```this```). 
+
+Podemos fazer o estado (variável _running_ dentro dele) mudar da seguinte maneira:
+
+
+``` javascript
+    // "Método" dentro do componente
+    changeButton ()  {this.setState({running: !this.state.running}, () => {console.log(this.state)})}
+```
+``` jsx
+    <button onClick = {this.changeButton.bind(this)} style = {buttonStyles}>{running ? 'Stop' : 'Start'}</button>
+```
+
+Dessa forma temos que fazer o bind do contexto (```this```), porém, podemos utilizar uma _Arrow Function_ na declaração do "método" do componente, assim como as _Arrow functions_ capturam o valor de this do contexto vinculado não precisamos utilizar o ```bind```:
+
+``` javascript
+    // "Método" dentro do componente
+    changeButton = () =>  this.setState({running: !this.state.running}, () => {console.log(this.state)})
+```
+``` jsx
+    <button onClick = {this.changeButton} style = {buttonStyles}>{this.state.running ? 'Stop' : 'Start'}</button>
+```
+
+> Para mais informações sobre _Arrow Functions_ dê uma olhadinha no <a href="https://developer.mozilla.org/pt-BR/docs/Web/JavaScript/Reference/Functions/Arrow_functions" target="_blank"> MDN </a>, povo é foda e tem exemplos ótimos para mostrar a diferença ❤️
+
+
+
