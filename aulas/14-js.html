@@ -16,7 +16,8 @@
   }
   class NameForm extends React.Component{
     state = {
-      error: null
+      error: this.props.getErrorMessage('')
+      // error: false
     }
 
     handleChange = (event) => {
@@ -44,6 +45,7 @@
               onChange={this.handleChange}
             />
           </label>
+          {error && <div style ={{color: 'red'}}>{error}</div>}
           <button disabled={Boolean(error)} type = "submit"> Submit</button>
         </form>
       )

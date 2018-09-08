@@ -19,6 +19,7 @@
 - [Aula 11: Use Class Components with React](#aula-11-use-class-components-with-react)
 - [Aula 12: Manipulate the DOM with React refs](#aula-12-manipulate-the-dom-with-react-refs)
 - [Aula 13: Make Basic Forms with React](#aula-13-make-basic-forms-with-react)
+- [Aula 14: Make Dynamic Forms with React](#aula-14-make-dynamic-forms-with-react)
 
 
 # Aula 00: Introdução
@@ -895,3 +896,98 @@ A propriedade ```ref``` é, definitivamente, apenas uma coisa do React que serve
 
 > Por ser mais explicito, Kent prefere utilizar o ```ref``` mas lembra que caso tenhamos um formulário bem grande usar o ```name``` funciona bem também por não precisarmos criar um monte de refs e cuidar deles
 
+# Aula 14: Make Dynamic Forms with React
+
+Uma maneira de criar validações para um formulário é criar uma função que faz a validação e ao submeter chamar a mesma, exemplo:
+
+```js
+  const getErrorMessage = (value) => {
+    if(value.length < 3) return `Username deve ter no mínimo 3 caracteres`
+    if(!value.includes('p')) return `Você precisa ter um "p" no seu username para fazer parte da psopciepdapde`
+    return null
+  }
+  class NameForm extends React.Component{
+    handleSubmit = (event) => {
+      event.preventDefault()
+      const valor = this.batatinha.value
+      const erro = this.props.getErrorMessage(valor)
+      if(erro) alert(`Deu ruim aí: ${erro}`)
+      else alert(`xuxessu: ${valor}`)
+    }
+
+    render() {
+      return (
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Name:
+            <input type="text"
+              ref={node => this.batatinha = node }
+              name= "username"
+            />
+          </label>
+          <button type = "submit"> Submit</button>
+        </form>
+      )
+    }
+  }
+  const element = <NameForm
+    getErrorMessage = {getErrorMessage}
+  />
+  ReactDOM.render(element, document.getElementById('root'))
+
+```
+
+
+Porém, este tipo de abordagem não é muito interessante pois não fornece ao usuáiro uma forma dinâmica de falar que ele está com algum problema. Para sanar isso podemos usar a propriedade ```onChange``` e fazer a validação conforme o usuário iterage com o ```input```.
+
+
+Para validar em tempo real teremos que utlizar um ```statefullComponent``` para observar as alterações e o que queremos.
+
+Assim, basta colocar estado um atributo para formulário com erro, criar a função que ira tratar as alterações do ```input```:
+
+```js
+    state = {
+      error: null
+    }
+
+    handleChange = (event) => {
+      const {value} = event.target
+      this.setState({error: this.props.getErrorMessage(value)})
+    }
+
+    render(){
+      //...
+      <input type="text" ref={node => this.batatinha = node } name= "username"
+              onChange={this.handleChange}
+            />
+      //...
+          <button disabled={Boolean(this.state.error)} type = "submit"> vai</button>
+      //...
+    }
+```
+
+
+Tudo parece funcionar, porém, como a validação é feita apenas no momento que ocorro alguma alteração, o atributo ```disabled``` inicializará com false, fazendo com que o botão de ```submit``` comece habilitado. Para evitar isso basta fazer a validação quando o componente terminar de montar:
+
+
+```js
+  componentDidMount() {
+    this.setState({error: this.props.getErrorMessage('')})
+  }
+```
+
+
+Como a função de validação é passada como proprieadade poderíamos ter colocado ela nomomento de inicializção do estado também:
+
+```js
+state = {
+  error: this.props.getErrorMessage('')
+}
+```
+  > dessa forma ainda evitados uma renderização a toa já que não estamos usando o setState e sim  uma inicialização do moesmo
+
+Só por sacanagem, bora colocar uma ```div``` com a mensagem de erro:
+
+```js
+  {error && <div style ={{color: 'red'}}>{error}</div>}
+```
