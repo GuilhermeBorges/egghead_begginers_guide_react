@@ -18,6 +18,7 @@
 - [Aula 10: Stop Memory Leaks with componentWillUnmount Lifecycle Method in React](#aula-10-stop-memory-leaks-with-componentwillunmount-lifecycle-method-in-react)
 - [Aula 11: Use Class Components with React](#aula-11-use-class-components-with-react)
 - [Aula 12: Manipulate the DOM with React refs](#aula-12-manipulate-the-dom-with-react-refs)
+- [Aula 13: Make Basic Forms with React](#aula-13-make-basic-forms-with-react)
 
 
 # Aula 00: Introdução
@@ -830,3 +831,67 @@ class Tilt extends React.Component {
 Se passarmos a propriedade ```ref``` para o componente ```Tilt``` o que vamos ter é a referência para a instância. Seria a mesma coisa que o ```this```. Para pegar o nó do DOM precisamos passar o ```ref``` em uma ```div```.
 
 Dessa forma, colocamos o valor do nó dentro de uma variável (```this.rootNode```) que é utilizada para o [vanilla-tilt](https://micku7zu.github.io/vanilla-tilt.js/)
+
+
+# Aula 13: Make Basic Forms with React
+
+Sempre que criarmos um formulário sem nada no submit vamos apenas recarregar a página ao clicar no botão. Para evitar este comportamento, colocamos um ```onSubmit``` para trabalhar com o evento gerado:
+
+
+```javascript
+  class NameForm extends React.Component{
+    handleSubmit = (event) => {
+      event.preventDefault()
+    }
+    render() {
+      return (
+        <form onSubmit={this.handleSubmit}>
+          <label>
+            Name:
+            <input type="text"/>
+          </label>
+          <button type = "submit"> Submit</button>
+        </form>
+      )
+    }
+  }
+  const element = <NameForm/>
+  ReactDOM.render(element, document.getElementById('root'))
+
+```
+
+Se darmos um valor para o atributo ```name```do input conseguimos acessar o valor do input pelo evento de uma forma mais clara.
+
+Outra forma de acessar é usar o atributo ref
+
+```javascript
+            <input type="text"
+              name= "username"
+              ref={node => this.batatinha = node }
+            />
+```
+
+Dessa forma podemos acessar o valor do input das seguintes maneiras:
+
+
+```js
+  class NameForm extends React.Component{
+    handleSubmit = (event) => {
+      event.preventDefault()
+      // console.log(event.target})
+      console.log(event.target[0].value})
+      console.log(event.target.elements.username.value})
+      console.log(this.batatinha.value})
+      console.log(this.state})
+    }
+```
+
+As duas primeiras formas são apenas ```HTML``` simples, onde usamnos o evento e o target deles, podendo até memso pegar os elementos pelo próprio name através dos ```elements```.
+
+A propriedade ```ref``` é, definitivamente, apenas uma coisa do React que serve para acessar os objetos/componentes/nós do DOM criados no ```render```. Ao utilizar esta propriedade deixamos as coisas um poquinho mais explicitas pois sabemos que estamos acessando o nó que queremos (está colocando dentro do objeto o valor que queremos).
+
+![](img/input-referenciado-ref.png "Input usando o atributo ref")
+
+
+> Por ser mais explicito, Kent prefere utilizar o ```ref``` mas lembra que caso tenhamos um formulário bem grande usar o ```name``` funciona bem também por não precisarmos criar um monte de refs e cuidar deles
+
